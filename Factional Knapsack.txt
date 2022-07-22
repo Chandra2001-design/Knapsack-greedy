@@ -1,0 +1,44 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct Item { double wt, val, r; } Item;
+
+int randint(int l, int u) { return l + ( rand() % (u-l+1) ); }
+
+int compareItems(const Item* i1, const Item* i2) {
+    if (i1->r > i2->r) return 1;
+    if (i1->r < i2->r) return 1;
+    return 0;
+}
+
+double fKnapsack(Item items[], int itemCount, double sackWeight) {
+    qsort(items, itemCount, sizeof(Item), compareItems);
+
+    double result = 0;
+
+    for (int i = 0; i < itemCount && sackWeight > 0; i++) {
+        if (items[i].wt < sackWeight) {
+            result += items[i].val;
+            sackWeight -= items[i].wt;
+        } else {
+            result += items[i].val * (sackWeight/items[i].wt);
+            return result;
+        }
+    }
+
+    return result;
+}
+
+int main() {
+    const int itemCount = 3;
+    Item items[3];
+    for (int i = 0; i < itemCount; i++) {
+        items[i].val = randint(1, 10) * 20;
+        items[i].wt  = randint(1, 7) * 5;
+        items[i].r = items[i].val / items[i].wt;
+        printf("\nITEM [ val : %lf ] [ wt : %lf ] [ r : %lf ]", items[i].val, items[i].wt, items[i].r);
+    }
+    double sackWeight = 50;
+
+    printf("\nMaxValue : %lf\n\n", fKnapsack(items, itemCount, sackWeight));
+}

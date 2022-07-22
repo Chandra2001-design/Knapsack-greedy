@@ -1,0 +1,30 @@
+# include<stdio.h>
+void binary(int arr[],int num, int size, int l, int r){
+    if(l<r){
+        int mid=(l+r)/2;
+        if(num==arr[mid]){
+            printf("The number is at: %d",mid);
+        }else if(num<arr[mid]){
+            binary(arr,num,size,l,mid-1);
+        }else{
+            binary(arr,num,size,mid+1,r);
+        }
+    }
+}
+int main(){
+    int arr[] = {1,2,3,4,5,6,7,8,9,10};
+    int num, size=sizeof(arr)/sizeof(int), l=0, r=size-1;
+    printf("Enter the number to be searched for: ");
+    scanf("%d",&num);
+    binary(arr,num,size,l,r);
+    
+}
+
+/*
+
+Output:
+
+Enter the number to be searched for: 2
+The element 2 is at index 1
+
+*/

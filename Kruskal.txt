@@ -1,0 +1,75 @@
+// Kruskal's Algorithm for minimum spanning tree
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
+typedef struct Edge {
+    int from;
+    int to;
+    int weight;
+} Edge;
+
+// Returns an array of edges representing the edgelist of the minimum spanning tree
+Edge* kruskalMinimumSpanningTree(Edge[], int, int);
+// Sorts an Edgelist based on edge weight
+// void sort(Edge[], int);
+int compare(const Edge*, const Edge*);
+// Prints an graph, takes edgelist as argument
+void printGraph(Edge[], int);
+
+// Completed
+int main() {
+    // Number of edges in the graph
+    const int EDGE_COUNT = 9;
+    // Number of nodes in the graph
+    const int NODE_COUNT = 6;
+    // The Graph is an array of edges with weights
+    Edge Graph[] = {
+        { 1, 2, 6 },
+        { 1, 3, 7 },
+        { 1, 4, 8 },
+        { 2, 3, 4 },
+        { 3, 4, 5 },
+        { 4, 5, 6 },
+        { 3, 5, 5 },
+        { 5, 6, 8 },
+        { 4, 6, 5 },
+    };
+
+    printf("Available Graph : ");
+    printGraph(Graph, EDGE_COUNT);
+
+    printf("Minimum Spanning Tree : ");
+    printGraph(kruskalMinimumSpanningTree(Graph, EDGE_COUNT, NODE_COUNT), NODE_COUNT-1);
+
+    return 0;
+}
+
+int compare(const Edge* edge1, const Edge* edge2) { return edge1->weight > edge2->weight ? 1 : edge1->weight < edge2->weight ? -1 : 0; }
+
+Edge* kruskalMinimumSpanningTree(Edge edgeList[], int edgeCount, int nodes) {
+    // sort(edgeList, edgeCount);
+    qsort(edgeList, edgeCount, sizeof(Edge), compare);
+
+    Edge* MSTEdgeList = calloc(nodes, sizeof(Edge));
+    int MSTEdgeListCounter = 0;
+
+    bool* node_checker = calloc(nodes - 1, sizeof(bool));
+
+    for (int i = 0; i < edgeCount; i++) {
+        if (node_checker[edgeList[i].to]) continue;
+        MSTEdgeList[MSTEdgeListCounter] = edgeList[i];
+        node_checker[edgeList[i].to] = true;
+        MSTEdgeListCounter++;
+    }
+
+    return MSTEdgeList;
+}
+
+void printGraph(Edge edgelist[], int edgeCount) {
+    for (int i = 0; i < edgeCount; i++) {
+        printf("\n%d -> %d : %d", edgelist[i].from, edgelist[i].to, edgelist[i].weight);
+    }
+    printf("\n");
+}

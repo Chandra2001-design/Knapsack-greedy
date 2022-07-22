@@ -1,0 +1,42 @@
+#include <stdio.h>
+void swap(int* p, int* q){
+    int temp=*p;
+    *p=*q;
+    *q=temp;
+}
+void printArray(int arr[], int size){
+    for(int i=0; i<size; i++){
+        printf("%d ",arr[i]);
+    }
+}
+void bubbleSort(int arr[], int size){
+    for(int i=1; i<size; i++){
+        for(int j=1; j<size;j++){
+            if(arr[j-1]>arr[j]){
+                swap(&arr[j-1],&arr[j]);
+            }
+        }
+    }
+}
+int main() {
+    
+    int arr[] = {7,5,9,6,4,2};
+    int size = sizeof(arr)/sizeof(arr[0]);
+    printf("Before Sorting...\n");
+    printArray(arr,size);
+    printf("\nAfter Sorting...\n");
+    bubbleSort(arr,size);
+    printArray(arr,size);
+    return 0;
+}
+
+/*
+
+Output:
+
+Before Sorting...
+7 5 9 6 4 2 
+After Sorting...
+2 4 5 6 7 9 
+
+*/

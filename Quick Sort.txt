@@ -1,0 +1,67 @@
+// Quick Sort Algorithm
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
+int randint(int lowerLim, int upperLim);
+void printArray(int arr[], int arrSize);
+void sort(int arr[], int lo, int hi);
+int part(int arr[], int lo, int hi);
+void swapInt(int* num1, int* num2);
+
+int main() {
+    int arr[20];
+    const int arrSize = sizeof(arr) / sizeof(arr[0]);
+    for (int i = 0; i < arrSize; i++) arr[i] = randint(10, 99);
+
+    printf("BEFORE SORTING : \n");
+    printArray(arr, arrSize);
+
+    sort(arr, 0, arrSize-1);
+
+    printf("\n\nAFTER SORTING : \n");
+    printArray(arr, arrSize);
+
+    printf("\n\n\n\n");
+}
+
+int randint(int lowerLim, int upperLim) {
+    return (rand() % (upperLim - lowerLim + 1) + lowerLim);
+}
+
+void printArray(int arr[], int arrSize) {
+    for (int i = 0; i < arrSize; i++) {
+        if (i) printf(", ");
+        printf("%d", arr[i]);
+    }
+}
+
+void sort(int arr[], int lo, int hi) {
+    if (lo < hi) {
+        int mid = part(arr, lo, hi);
+        sort(arr, lo, mid-1);
+        sort(arr, mid+1, hi);
+    }
+}
+
+int part(int arr[], int lo, int hi) {
+    int pivot = arr[hi];
+    int i = lo-1;
+    for (int j = lo; j < hi; j++) {
+        if (arr[j] < pivot) {
+            i++;
+            swapInt(arr+j, arr+i);
+        }
+    }
+    i++;
+    swapInt(arr+i, arr+hi);
+
+    return i;
+}
+
+void swapInt(int* num1, int* num2) {
+    int temp = *num1;
+    *num1 = *num2;
+    *num2 = temp;
+}
